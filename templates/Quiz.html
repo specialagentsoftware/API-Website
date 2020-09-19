@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>QUIZ!</title>
+
+
+    <link href="../static/css/trivia/bootstrap.min.css" rel="stylesheet">
+    <link href="../static/css/trivia/style.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <div class="container-fluid">
+        <hr>
+        <div style="text-align: center;">
+            <h4>{{ category }}</h4>
+        </div>
+        <hr>
+        <center>
+            <div class="jumbotron question" style="background: #696969; width:70%;">{{ questions[1] }}</div>
+        </center>
+        <hr>
+        <div class="form-group">
+            <form method="POST" action="answer">
+                <input type="text" name="answer" required placeholder="Enter Answer" style="width:100%">
+                <input type="hidden" name="question" value="{{questions[0]}}">
+                <center><input type="submit" value="Submit" class="btn btn-primary" style="margin-top: 5px;"></center>
+                <br>
+                <hr>
+            </form>
+        </div>
+    </div>
+    <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
+    <script src="../static/js/trivia/jquery.min.js"></script>
+    <script src="../static/js/trivia/bootstrap.min.js"></script>
+</body>
+
+</html>

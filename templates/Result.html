@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Result</title>
+
+  <link href="../static/css/trivia/bootstrap.min.css" rel="stylesheet">
+  <link href="../static/css/trivia/style.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+  <div class="container-fluid">
+    <hr>
+    {% if qresult == 'Correct' %}
+    <div class="resultheading" style="background-color: green; text-align: center;">
+      {% set style = "background: #696969;"%}
+      <h4>{{qresult}}</h4>
+    </div>
+
+    {% else %}
+    <div class="resultheading" style="background-color: red; text-align: center;">
+      {% set style = "background: #696969;"%}
+      <h4>{{qresult}}</h4>
+    </div>
+    {% endif %}
+    <br>
+    <div class="jumbotron result" style="{{style}}">
+      <span>The answer was {{answer}}</span>
+    </div>
+  </div>
+  <center>
+    <form action="trivia" method="GET">
+      <input type="submit" value="Pick another category" class="btn btn-primary" />
+    </form>
+  </center>
+
+  {% if qresult == 'Correct' %}
+  <div id="gif-wrap"
+    style="padding-left: 5px;padding-right: 5px;padding-top: 2px; padding-bottom: 5px; width: 80%;margin-bottom: 8px;">
+  </div>
+  <div>&nbsp;</div>
+  {% else %}
+  <div id="gif-wrap-fail"
+    style="padding-left: 5px;padding-right: 5px;padding-top: 2px; padding-bottom: 5px; width: 80%;margin-bottom: 8px;">
+  </div>
+  <div>&nbsp;</div>
+  {% endif %}
+  </div>
+  </div>
+
+  <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
+  <script src="../static/js/trivia/jquery.min.js"></script>
+  <script src="../static/js/trivia/bootstrap.min.js"></script>
+  <script src="../static/js/trivia/scripts.js"></script>
+</body>
+
+</html>

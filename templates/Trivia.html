@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Trivia</title>
+
+
+  <link href="../static/css/trivia/bootstrap.min.css" rel="stylesheet">
+  <link href="../static/css/trivia/style.css" rel="stylesheet">
+  <link href="../static/css/trivia/all.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+  <div class="container-fluid">
+    <hr>
+    <div style="text-align: center;">
+      <h4>Select a category.</h4>
+      <hr>
+      <div class="row justify-content-center">
+        <div class="jumbotron">
+          <div class="form-group">
+            <select name="category" class="custom-select" onchange="location = this.value;">
+              <option value="nothing" name="questions"></option>
+              {% for cat in categories %}
+              <option value="getquestions?questions={{cat[0]}}" name="questions">{{cat[0]}}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="align-content: center; text-align: center;">
+      <p>{{username}}'s Score : {{score['correct']}} <i class="fas fa-check-square" style="color:green"></i> and
+        {{score['incorrect']}}
+        <i class="fas fa-times-circle" style="color:red"></i></p>
+    </div>
+    <center><a href="/standings" class="btn btn-primary btn-lg" role="button" aria-disabled="true">View All Scores</a>
+    </center>
+  </div>
+  <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
+  <script src="../static/js/trivia/jquery.min.js"></script>
+  <script src="../static/js/trivia/bootstrap.min.js"></script>
+</body>
+
+</html>
