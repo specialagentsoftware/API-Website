@@ -7,6 +7,8 @@ import requests
 import ast
 from markupsafe import escape
 from fuzzywuzzy import fuzz
+import markdown
+import markdown.extensions.fenced_code
 
 app = Flask(__name__, static_url_path='/static')
 api = Api(app)
@@ -16,7 +18,7 @@ app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 class GetRandom(Resource):
     def get(self):
         if request.headers.get('X-RapidAPI-Proxy-Secret') == "a678f990-eca0-11ea-84db-2fbcc004579c":
-            conn = sqlite3.connect('firefly.db')
+            conn = sqlite3.connect('database/firefly.db')
             c = conn.cursor()
             c.execute(
                 """Select character,episode,quote from quotes ORDER BY RANDOM() LIMIT 1""")
@@ -38,7 +40,7 @@ class GetRandom(Resource):
 class GetCharacterQuotes(Resource):
     def get(self, chname):
         if request.headers.get('X-RapidAPI-Proxy-Secret') == "a678f990-eca0-11ea-84db-2fbcc004579c":
-            conn = sqlite3.connect('firefly.db')
+            conn = sqlite3.connect('database/firefly.db')
             c = conn.cursor()
             c.execute("Select character,episode,quote from quotes where character = '" +
                       chname.title() + "' ORDER BY RANDOM() LIMIT 1""")
@@ -60,7 +62,7 @@ class GetCharacterQuotes(Resource):
 class GetEpisodeQuotes(Resource):
     def get(self, epname):
         if request.headers.get('X-RapidAPI-Proxy-Secret') == "a678f990-eca0-11ea-84db-2fbcc004579c":
-            conn = sqlite3.connect('firefly.db')
+            conn = sqlite3.connect('database/firefly.db')
             c = conn.cursor()
             c.execute("Select character,episode,quote from quotes where episode = '" +
                       epname.title() + "' ORDER BY RANDOM() LIMIT 1""")
@@ -89,7 +91,7 @@ class mail(Resource):
         return "nope"
 
     def post(self):
-        conn = sqlite3.connect('firefly.db')
+        conn = sqlite3.connect('database/firefly.db')
         c = conn.cursor()
         name = request.form['name']
         email = request.form['email']
@@ -105,7 +107,7 @@ class GetZipInfo(Resource):
     def get(self, ziptosearch):
         # print("Get Zip Info Called")
         if request.headers.get('X-RapidAPI-Proxy-Secret') == "e2a4d700-f1e5-11ea-bc74-5b45dd6d70e2":
-            conn = sqlite3.connect('firefly.db')
+            conn = sqlite3.connect('database/firefly.db')
             c = conn.cursor()
             c.execute("select zip,type,decommissioned,primary_city,acceptable_cities,unacceptable_cities,state,county,timezone,area_codes,world_region,country,latitude,longitude,irs_estimated_population_2015 from zipdata where zip = " +
                       str(ziptosearch))
@@ -140,7 +142,7 @@ class GetZipInfoByCityState(Resource):
 
     def get(self, city, state):
         if request.headers.get('X-RapidAPI-Proxy-Secret') == "e2a4d700-f1e5-11ea-bc74-5b45dd6d70e2":
-            conn = sqlite3.connect('firefly.db')
+            conn = sqlite3.connect('database/firefly.db')
             c = conn.cursor()
             c.execute("select zip,type,decommissioned,primary_city,acceptable_cities,unacceptable_cities,state,county,timezone,area_codes,world_region,country,latitude,longitude,irs_estimated_population_2015 from zipdata where primary_city = '" +
                       str(city) + "' and state = '" + str(state) + "'")
@@ -180,7 +182,7 @@ class GetZipInfoByState(Resource):
 
     def get(self, state):
         if request.headers.get('X-RapidAPI-Proxy-Secret') == "e2a4d700-f1e5-11ea-bc74-5b45dd6d70e2":
-            conn = sqlite3.connect('firefly.db')
+            conn = sqlite3.connect('database/firefly.db')
             c = conn.cursor()
             c.execute("select zip,type,decommissioned,primary_city,acceptable_cities,unacceptable_cities,state,county,timezone,area_codes,world_region,country,latitude,longitude,irs_estimated_population_2015 from zipdata where state = '" + str(state) + "'")
             results_set = c.fetchall()
@@ -232,7 +234,7 @@ def login():
     if request.method == 'POST':
         session['username'] = request.form['username']
 
-        conn = sqlite3.connect('firefly.db')
+        conn = sqlite3.connect('database/firefly.db')
         c = conn.cursor()
         username = request.form['username']
 
@@ -265,7 +267,7 @@ def GetTrivia():
 
             username = escape(session['username'])
 
-            conn = sqlite3.connect('firefly.db')
+            conn = sqlite3.connect('database/firefly.db')
             c = conn.cursor()
             c.execute("select distinct(category) as category from questions")
             results_set = c.fetchall()
@@ -279,7 +281,7 @@ def GetTrivia():
 def GetStandings():
     if request.method == 'GET':
         category = request.args.get('questions')
-        conn = sqlite3.connect('firefly.db')
+        conn = sqlite3.connect('database/firefly.db')
         c = conn.cursor()
         c.execute("select questionid,question from questions where category = '" +
                   category + "' ORDER BY RANDOM() LIMIT 1")
@@ -296,7 +298,7 @@ def GetStandings():
 def GetQuestions():
     if request.method == 'GET':
         #category = request.args.get('questions')
-        conn = sqlite3.connect('firefly.db')
+        conn = sqlite3.connect('database/firefly.db')
         c = conn.cursor()
         c.execute("select username, correct, incorrect from users")
         results_set = c.fetchall()
@@ -314,7 +316,7 @@ def CheckAnswer():
         if 'username' in session:
             answer = request.form.get('answer')
             question = request.form.get('question')
-            conn = sqlite3.connect('firefly.db')
+            conn = sqlite3.connect('database/firefly.db')
             score_correct = session['score']['correct']
             score_incorrect = session['score']['incorrect']
             userid = session['userid']
@@ -345,6 +347,14 @@ def CheckAnswer():
             redirect('/trivia')
     else:
         return "Nope"
+
+
+@ app.route('/blog', methods=['GET'])
+def GetBlog():
+    readme_file = open("blog.md", "r")
+    md_template_string = markdown.markdown(
+        readme_file.read(), extensions=["fenced_code"])
+    return render_template('Blog.html', markdown=md_template_string)
 
 
 @ app.errorhandler(404)
