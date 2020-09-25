@@ -299,7 +299,7 @@ def GetStandings():
 @ app.route('/standings', methods=['GET'])
 def GetQuestions():
     if request.method == 'GET':
-        #category = request.args.get('questions')
+        # category = request.args.get('questions')
         conn = sqlite3.connect('database/firefly.db')
         c = conn.cursor()
         c.execute("select username, correct, incorrect from users")
@@ -357,6 +357,18 @@ def GetBlog():
     md_template_string = markdown.markdown(
         readme_file.read(), extensions=["fenced_code"])
     return render_template('Blog.html', markdown=md_template_string)
+
+
+@ app.route('/37852', methods=['GET'])
+def GetMail():
+    conn = sqlite3.connect('database/firefly.db')
+    c = conn.cursor()
+    c.execute("select name, email, message from messages")
+    results_set = c.fetchall()
+    if(results_set is not None):
+        return render_template('Mail.html', messages=results_set)
+    else:
+        return redirect("/")
 
 
 @ app.errorhandler(404)
