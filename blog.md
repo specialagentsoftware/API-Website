@@ -16,6 +16,8 @@ Read that again, I will wait.
 
 I could have bought the gown, and paid a professional photographer not affiliated with the who the school selected and came out cheaper with more poses, backgrounds and would have recieved probably 15 or 20 different photos. How did this photpgraphy company get affiliated with the school? I would wager there was some soul selling involved. Because this is a freaking amazing deal for them. You are the only people who can take these pictures and you can charge any damn amount that these freaking idiots will pay... oh and we will pay. :-(
 
+![Say Cheese](https://media3.giphy.com/media/xUPGcriP4h5ek6xCLK/giphy.gif)
+
 ## Religous ferver 9/25/2020
 
 I am not sure why in the world we allow peoples individual beliefs to make decisions for other people who do not necessarily have those beliefs. For example, If I as a legal adult wish to purchase beer on a Sunday. I am not allowed to do so until after 12pm. Do I have anything to do with a church or religion? Nope. I am impeded of course because others feel like their own religion would be destroyed if I buy a beer on Sunday morning.

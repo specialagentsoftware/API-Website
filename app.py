@@ -9,10 +9,12 @@ from markupsafe import escape
 from fuzzywuzzy import fuzz
 import markdown
 import markdown.extensions.fenced_code
+from flask_cors import CORS
 
 app = Flask(__name__, static_url_path='/static')
 api = Api(app)
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
+CORS(app)
 
 
 class GetRandom(Resource):
