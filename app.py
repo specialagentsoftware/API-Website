@@ -360,13 +360,30 @@ def GetBlog():
 
 
 @ app.route('/37852', methods=['GET'])
-def GetMail():
+def GetLogin():
     conn = sqlite3.connect('database/firefly.db')
     c = conn.cursor()
     c.execute("select name, email, message from messages")
     results_set = c.fetchall()
     if(results_set is not None):
-        return render_template('Mail.html', messages=results_set)
+        return render_template('LoginMail.html')
+    else:
+        return redirect("/")
+
+
+@ app.route('/readmail', methods=['GET'])
+def GetMail():
+    conn = sqlite3.connect('database/firefly.db')
+    c = conn.cursor()
+    c.execute("select name, email, message from messages")
+    results_set = c.fetchall()
+    username = request.args.get('username')
+    password = request.args.get('password')
+    if(results_set is not None):
+        if username == 'bigdaddy' and password == '@3231Tpkk':
+            return render_template('Mail.html', messages=results_set)
+        else:
+            return redirect("/")
     else:
         return redirect("/")
 
