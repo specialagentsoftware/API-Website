@@ -13,13 +13,13 @@ from flask_cors import CORS
 
 app = Flask(__name__, static_url_path='/static')
 api = Api(app)
-app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
+app.secret_key = b'put_your_secret_key_here'
 CORS(app)
 
 
 class GetRandom(Resource):
     def get(self):
-        if request.headers.get('X-RapidAPI-Proxy-Secret') == "a678f990-eca0-11ea-84db-2fbcc004579c":
+        if request.headers.get('X-RapidAPI-Proxy-Secret') == "put_your_proxy_secret_here":
             conn = sqlite3.connect('database/firefly.db')
             c = conn.cursor()
             c.execute(
@@ -41,7 +41,7 @@ class GetRandom(Resource):
 
 class GetCharacterQuotes(Resource):
     def get(self, chname):
-        if request.headers.get('X-RapidAPI-Proxy-Secret') == "a678f990-eca0-11ea-84db-2fbcc004579c":
+        if request.headers.get('X-RapidAPI-Proxy-Secret') == "put_your_proxy_secret_here":
             conn = sqlite3.connect('database/firefly.db')
             c = conn.cursor()
             c.execute("Select character,episode,quote from quotes where character = '" +
@@ -63,7 +63,7 @@ class GetCharacterQuotes(Resource):
 
 class GetEpisodeQuotes(Resource):
     def get(self, epname):
-        if request.headers.get('X-RapidAPI-Proxy-Secret') == "a678f990-eca0-11ea-84db-2fbcc004579c":
+        if request.headers.get('X-RapidAPI-Proxy-Secret') == "put_your_proxy_secret_here":
             conn = sqlite3.connect('database/firefly.db')
             c = conn.cursor()
             c.execute("Select character,episode,quote from quotes where episode = '" +
@@ -108,7 +108,7 @@ class GetZipInfo(Resource):
 
     def get(self, ziptosearch):
         # print("Get Zip Info Called")
-        if request.headers.get('X-RapidAPI-Proxy-Secret') == "e2a4d700-f1e5-11ea-bc74-5b45dd6d70e2":
+        if request.headers.get('X-RapidAPI-Proxy-Secret') == "put_your_proxy_secret_here":
             conn = sqlite3.connect('database/firefly.db')
             c = conn.cursor()
             c.execute("select zip,type,decommissioned,primary_city,acceptable_cities,unacceptable_cities,state,county,timezone,area_codes,world_region,country,latitude,longitude,irs_estimated_population_2015 from zipdata where zip = " +
@@ -143,7 +143,7 @@ class GetZipInfo(Resource):
 class GetZipInfoByCityState(Resource):
 
     def get(self, city, state):
-        if request.headers.get('X-RapidAPI-Proxy-Secret') == "e2a4d700-f1e5-11ea-bc74-5b45dd6d70e2":
+        if request.headers.get('X-RapidAPI-Proxy-Secret') == "put_your_proxy_secret_here":
             conn = sqlite3.connect('database/firefly.db')
             c = conn.cursor()
             c.execute("select zip,type,decommissioned,primary_city,acceptable_cities,unacceptable_cities,state,county,timezone,area_codes,world_region,country,latitude,longitude,irs_estimated_population_2015 from zipdata where primary_city = '" +
@@ -183,7 +183,7 @@ class GetZipInfoByCityState(Resource):
 class GetZipInfoByState(Resource):
 
     def get(self, state):
-        if request.headers.get('X-RapidAPI-Proxy-Secret') == "e2a4d700-f1e5-11ea-bc74-5b45dd6d70e2":
+        if request.headers.get('X-RapidAPI-Proxy-Secret') == "put_your_proxy_secret_here":
             conn = sqlite3.connect('database/firefly.db')
             c = conn.cursor()
             c.execute("select zip,type,decommissioned,primary_city,acceptable_cities,unacceptable_cities,state,county,timezone,area_codes,world_region,country,latitude,longitude,irs_estimated_population_2015 from zipdata where state = '" + str(state) + "'")
@@ -380,7 +380,7 @@ def GetMail():
     username = request.args.get('username')
     password = request.args.get('password')
     if(results_set is not None):
-        if username == 'bigdaddy' and password == '@3231Tpkk':
+        if username == 'your_username_here' and password == 'your_password_here':
             return render_template('Mail.html', messages=results_set)
         else:
             return redirect("/")
